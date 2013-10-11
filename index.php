@@ -3,7 +3,7 @@
 Plugin Name: 4dem
 Plugin URI: http://4marketing.it
 Description: 4dem control panel
-Version: 1.0
+Version: 0.1
 Author: Foysal Ahmed
 Author URI: http://4marketing.it
 */
@@ -108,8 +108,19 @@ class FourDem{
 	 * - $current_tab
 	 */
 	private function create_plugin_page_subtabs($current_tab){
-		if( isset($this->tabs[$current_tab]) ){ // i think my brain doesn't really work! why am i doing this?
-			$cur_subtab = (isset($_GET['subtab'])) ? $_GET['subtab'] : key($this->tabs[$current_tab]['subtabs']);
+		if( isset($this->tabs[$current_tab]['subtabs']) ){ // i think my brain doesn't really work! why am i doing this?
+			if( isset($_GET['subtab']) ){
+				$cur_subtab = $_GET['subtab'];
+			}else{
+				//get the first subtab from the list of available subtabs
+				//it is repeated twice and I don't like that, might change later on but it will have to do for now
+				$subtabs = $this->tabs[$current_tab]['subtabs'];
+				reset($subtabs);
+				$first_subtab = key($subtabs);
+
+			  	$cur_subtab = $first_subtab;
+			}
+
 			$counter = 0;
 
 		    echo '<ul class="subsubsub" id="email_tpl_subsubsub">';
@@ -124,6 +135,7 @@ class FourDem{
 			}
 
 		    echo '</ul>';
+		    echo '<br class="clear">';
 		}
 	}
 
@@ -132,20 +144,25 @@ class FourDem{
 	 * @PARAMS
 	 * -$section
 	 */
-	private function create_plugin_page_section($section){
-		switch ($section) {
-			case 'config':
-				include_once(FOURDEM_PLUGIN_PATH .'templates/configurations.php');
-				break;
+	private function create_plugin_page_section($current_tab){
+		if( isset($this->tabs[$current_tab]['subtabs']) ){ // i think my brain doesn't really work! why am i doing this?
+			if( isset($_GET['subtab']) ){
+				$cur_subtab = $_GET['subtab'];
+			}else{
+				//get the first subtab from the list of available subtabs
+				//it is repeated twice and I don't like that, might change later on but it will have to do for now
+				$subtabs = $this->tabs[$current_tab]['subtabs'];
+				reset($subtabs);
+				$first_subtab = key($subtabs);
 
-			case 'user_sync':
-				include_once(FOURDEM_PLUGIN_PATH .'templates/sync.php');
-				break;
-			
-			default:
-				include_once(FOURDEM_PLUGIN_PATH .'templates/configurations.php');
-				break;
+			  	$cur_subtab = $first_subtab;
+			}
+
+			$section_template = FOURDEM_PLUGIN_PATH .'/templates/'. $current_tab .'/'. $cur_subtab .'.php';
+		}else{
+			$section_template = FOURDEM_PLUGIN_PATH .'/templates/'. $current_tab .'.php';
 		}
+		include_once $section_template;
 	}
 
 	/*

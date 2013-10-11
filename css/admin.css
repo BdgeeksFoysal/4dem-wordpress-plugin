@@ -1,0 +1,38 @@
+.fourdem-admin-subtab li{
+	
+}
+
+.fourdem-admin-box.half{
+	position: relative;
+	float: left;
+	width: 48%;
+	margin-bottom: 20px;
+}
+.fourdem-admin-box.left{
+	float: left;
+	margin-right: 4%;
+}
+.fourdem-admin-box-header{
+	position: relative;
+	padding: 10px 2%;
+	background: #F44B06;
+	font-size: 18px;
+	font-weight: bold;
+	color: #ffffff;
+	z-index: 99;
+}
+.fourdem-admin-box:nth-of-type(2n) .fourdem-admin-box-header{
+	background: #00876D;
+}
+.fourdem-admin-box:nth-of-type(3n) .fourdem-admin-box-header{
+	background: #ACCD21;
+}
+.fourdem-admin-box-content{
+	position: relative;
+	padding: 10px 2%;
+	background: #ffffff;
+	line-height: 20px;
+	-webkit-box-shadow: 0 0 4px -2px #6c6c6c;
+	        box-shadow: 0 0 4px -2px #6c6c6c;
+	z-index: 9;
+}

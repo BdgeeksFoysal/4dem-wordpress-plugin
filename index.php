@@ -123,7 +123,7 @@ class FourDem{
 
 			$counter = 0;
 
-		    echo '<ul class="subsubsub" id="email_tpl_subsubsub">';
+		    echo '<ul class="subsubsub" id="fourdem-admin-subtab">';
 
 		    foreach( $this->tabs[$current_tab]['subtabs'] as $subtab=>$title ){
 		    	$class = ($subtab === $cur_subtab) ? ' class="current" ' : '';
@@ -165,11 +165,21 @@ class FourDem{
 		include_once $section_template;
 	}
 
+	public function plugin_page_stylesheet($page){
+		//add the plugin styling only if the page is 4dem plugin page
+		if($page == 'toplevel_page_4dem')
+			wp_enqueue_style('fourdem-admin-styles', FOURDEM_PLUGIN_URL .'/css/admin.css');
+	}
+
 	/*
 	 * initializes all the hooks
 	 */
 	private function hook_the_hooks(){
+		//adding the plugin page on the menu options list
 		add_action( 'admin_menu', array(&$this, 'add_plugin_page') );
+
+		//adding the stylesheet for the plugin page
+	    add_action('admin_enqueue_scripts', array(&$this, 'plugin_page_stylesheet') );
 	}
 }
 
